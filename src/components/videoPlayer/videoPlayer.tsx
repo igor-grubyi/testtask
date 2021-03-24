@@ -1,4 +1,4 @@
-import React, { LegacyRef, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Controls } from '../controls/controls';
 import './style.scss';
 
