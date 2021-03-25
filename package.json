@@ -23,9 +23,9 @@
   },
   "homepage": "https://github.com/igor-grubyi/testtask#readme",
   "dependencies": {
+    "notistack": "^1.0.5",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "react-notifi": "0.0.15",
     "react-ticker": "^1.2.2"
   },
   "devDependencies": {

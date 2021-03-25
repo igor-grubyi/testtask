@@ -20,7 +20,7 @@ export default function App() {
     <div className='appWrapper'>
       <VideoPlayer onTimeUpdate={handleCurrentTimeChage} />
       
-      <Events currentTime={currentTime} onEndGame={() => {}} />
+      <Events currentTime={currentTime} onEndGame={() => {console.log('end game')}} />
     </div>)
 }
 
