@@ -1,26 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Events } from './components/events/events';
 import { VideoPlayer } from './components/videoPlayer/videoPlayer';
 import './style.scss';
 
 
 export default function App() {
-  let currentTime = 0;
+  const [currentTime, setCurrentTime] = useState(0); 
 
   const handleCurrentTimeChage = (time: number) => {
     if (time == null) return;
 
     const seconds = Math.round(time);
-    if (seconds != currentTime) {
-      currentTime = seconds;
-      console.log(seconds);
-    }
-    
+
+    if (seconds != currentTime)
+      setCurrentTime(seconds);
   }
 
   return (
     <div className='appWrapper'>
       <VideoPlayer onTimeUpdate={handleCurrentTimeChage} />
       
+      <Events currentTime={currentTime} onEndGame={() => {}} />
     </div>)
 }
 
