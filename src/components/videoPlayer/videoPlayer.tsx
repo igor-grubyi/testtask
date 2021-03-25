@@ -11,8 +11,10 @@ interface IProps {
   onTimeUpdate: (currentTime: number) => void;
 }
 
-export const VideoPlayer: React.FunctionComponent<IProps> = (props) => {
+export const VideoPlayer: React.FunctionComponent<IProps> = React.memo(props => {
   const [media, setMedia] = useState(useRef(null));
+
+  console.log('Render video player');
   
   const getRef = (ref: any) => {
     if (ref == null)
@@ -34,4 +36,4 @@ export const VideoPlayer: React.FunctionComponent<IProps> = (props) => {
 
       <Controls media={media} />
     </div>);
-}
+})

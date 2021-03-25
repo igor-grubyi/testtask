@@ -23,8 +23,10 @@ export const Events: React.FunctionComponent<IProps> = (props) => {
     (async function fetch() {
       const eventsJSON = await fetchJson(url);
 
-      setTickets(eventsJSON.ticker);
-      setEvents(eventsJSON.events);
+      if (eventsJSON != null) {
+        setTickets(eventsJSON.ticker);
+        setEvents(eventsJSON.events);
+      }
     })();
   }, []);
 
@@ -46,6 +48,8 @@ export const Events: React.FunctionComponent<IProps> = (props) => {
       return ticker[currentTicker].body;
     }
   }
+
+  console.log('Render Event');
 
   return (
     <div className='events'>
