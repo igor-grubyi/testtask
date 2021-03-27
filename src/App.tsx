@@ -42,23 +42,23 @@ export default class App extends Component<{}, IState> {
     return (
       <div className='appRoot'>
         <div className='blur'>
-          {(this.state.startPlaying == false) &&
-            <button data-testid="play-button" className='play' onClick={() => this.setState({ startPlaying: true })} />}
+          {(this.state.startPlaying == false)
+            ? <button data-testid="play-button" className='play' onClick={() => this.setState({ startPlaying: true })} />
 
-          <SnackbarProvider
-            autoHideDuration={20000}
-            maxSnack={10}
-            hideIconVariant
-            dense
-            anchorOrigin={{ vertical: 'top', horizontal: 'left' }}>
+            : <SnackbarProvider
+              autoHideDuration={20000}
+              maxSnack={10}
+              hideIconVariant
+              dense
+              anchorOrigin={{ vertical: 'top', horizontal: 'left' }}>
 
-            <div className='mediaWrapper'>
-              {this.state.startPlaying && <VideoPlayer onTimeUpdate={this.handleCurrentTimeChage} media={this.setMedia} />}
+              <div className='mediaWrapper'>
+                {this.state.startPlaying && <VideoPlayer onTimeUpdate={this.handleCurrentTimeChage} media={this.setMedia} />}
 
-              {this.state.videoIsReady && <Events currentTime={this.state.currentTime} onEndGame={this.handleEndGame} />}
-            </div>
+                {this.state.videoIsReady && <Events currentTime={this.state.currentTime} onEndGame={this.handleEndGame} />}
+              </div>
 
-          </SnackbarProvider>
+            </SnackbarProvider>}
         </div>
       </div>)
   }

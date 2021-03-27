@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSnackbar } from 'notistack';
-import { EventType, IEvent } from '../models/event';
+import { EventType, IEvent } from '../../models/event';
 import { getTime } from '../../utils';
 
 interface IProps {

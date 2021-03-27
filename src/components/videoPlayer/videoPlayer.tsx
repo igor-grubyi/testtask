@@ -1,5 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Controls } from '../controls/controls';
+import React from 'react';
 import './style.scss';
 
 interface IProps {
@@ -8,13 +7,7 @@ interface IProps {
 }
 
 export const VideoPlayer: React.FunctionComponent<IProps> = React.memo(props => {
-  // const [media, setMedia] = useState(null);
-
   console.log('Render video player');
-
-  // useEffect(() => {
-  //   return media && media.removeEventListener('timeupdate', () => props.onTimeUpdate(media.currentTime));
-  // });
 
   const setRef = (ref: any) => {
     if (ref == null)
@@ -23,14 +16,12 @@ export const VideoPlayer: React.FunctionComponent<IProps> = React.memo(props => 
     ref.addEventListener('timeupdate', () => props.onTimeUpdate(ref.currentTime));
     ref.addEventListener('fullscreenchange', () => console.log('Fulscreen detected'));
     props.media(ref);
-    // setMedia(ref);
   }
 
   return (
     <div className="player">
       <video
         autoPlay
-        controlsList={''}
         controls
         ref={setRef}
         src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"

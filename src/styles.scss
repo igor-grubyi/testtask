@@ -5,13 +5,12 @@
 }
 
 .blur {
-  height: 100%;
-  width: 100%;
+  align-items: center;
   backdrop-filter: blur(20px);
   display: flex;
-  align-items: center;
+  height: 100%;
   justify-content: center;
-  // backdrop-filter: brightness(60%);
+  width: 100%;
 }
 
 .play {
@@ -28,7 +27,8 @@
 .mediaWrapper {
   display: flex;
   flex-flow: column;
+  height: 100%;
   justify-content: center;
-
-  width: fit-content;
+  position: relative;
+  width: 100%;
 }

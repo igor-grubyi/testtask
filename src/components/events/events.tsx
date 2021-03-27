@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Ticker from 'react-ticker';
 import { Notifications } from '../notifications/notifications';
 import { fetchJson } from '../../utils/index';
-import { IEvent, EventType } from '../models/event';
+import { IEvent, EventType } from '../../models/event';
 import './styles.scss';
 
 const url = 'https://raw.githubusercontent.com/igor-grubyi/testtask/master/resources/events.json';
