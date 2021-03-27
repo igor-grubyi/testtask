@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import Ticker from 'react-ticker';
-import { Notifications } from '../notifications/notifications';
+import { EventType, IBaseEvent } from '../../models/base';
 import { fetchJson } from '../../utils/index';
-import { IEvent, EventType } from '../../models/event';
+import { getNoticeByType, TYPE } from '../notifications';
 import './styles.scss';
 
 const url = 'https://raw.githubusercontent.com/igor-grubyi/testtask/master/resources/events.json';
@@ -14,8 +14,9 @@ interface IProps {
 
 export const Events: React.FunctionComponent<IProps> = (props) => {
   const [ticker, setTickets] = useState([]);
-  const [events, setEvents] = useState<IEvent[]>([]);
-  const [event, setEvent] = useState<IEvent>(null);
+  const [events, setEvents] = useState<IBaseEvent[]>([]);
+  const [event, setEvent] = useState<IBaseEvent>(null);
+  const [videoType, setVideoType] = useState(TYPE.football);
   const [endGameTime, setEndGameTime] = useState(Number.MAX_SAFE_INTEGER)
 
   let currentTicker = -1;
@@ -27,10 +28,13 @@ export const Events: React.FunctionComponent<IProps> = (props) => {
       if (eventsJSON != null) {
         setTickets(eventsJSON.ticker);
         setEvents(eventsJSON.events);
-        const endGame: IEvent = eventsJSON.events.find((ev: IEvent) => ev.type == EventType.endGame);
+        const endGame = eventsJSON.events.find((ev: IBaseEvent) => ev.type == EventType.endGame);
 
         if (endGame != null)
           setEndGameTime(endGame.time);
+
+        if (eventsJSON.videType)
+          setVideoType(eventsJSON.videType);
       }
     })();
   }, []);
@@ -55,6 +59,14 @@ export const Events: React.FunctionComponent<IProps> = (props) => {
     return ticker[currentTicker].body;
   }
 
+  const renderNotice = () => {
+    const NoticeComponent = getNoticeByType(videoType);
+
+    return <NoticeComponent notice={event} />
+  }
+
+  
+
   return (
     <div className='events'>
 
@@ -65,7 +77,7 @@ export const Events: React.FunctionComponent<IProps> = (props) => {
           </Ticker>}
       </div>
 
-      {event && <Notifications notice={event} />}
+      {event && renderNotice()}
     </div>
   )
 }

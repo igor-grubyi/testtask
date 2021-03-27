@@ -10,7 +10,7 @@ interface IState {
   currentTime: number;
 }
 export default class App extends Component<{}, IState> {
-  public state = { currentTime: 0, videoIsReady: false, startPlaying: false };
+  public state = { currentTime: 0, videoIsReady: false, startPlaying: true };
   private media: any;
 
   private handleCurrentTimeChage = (time: number) => {
@@ -28,6 +28,7 @@ export default class App extends Component<{}, IState> {
   private handleEndGame = () => {
     this.media.currentTime = 0;
     this.media.pause();
+    this.media.removeAttribute('src');
     this.media.load();
     this.setState({ videoIsReady: false, startPlaying: false });
   }
@@ -46,7 +47,7 @@ export default class App extends Component<{}, IState> {
             ? <button data-testid="play-button" className='play' onClick={() => this.setState({ startPlaying: true })} />
 
             : <SnackbarProvider
-              autoHideDuration={20000}
+              autoHideDuration={5000}
               maxSnack={10}
               hideIconVariant
               dense

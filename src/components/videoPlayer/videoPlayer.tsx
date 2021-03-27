@@ -7,14 +7,12 @@ interface IProps {
 }
 
 export const VideoPlayer: React.FunctionComponent<IProps> = React.memo(props => {
-  console.log('Render video player');
 
   const setRef = (ref: any) => {
     if (ref == null)
       return;
 
     ref.addEventListener('timeupdate', () => props.onTimeUpdate(ref.currentTime));
-    ref.addEventListener('fullscreenchange', () => console.log('Fulscreen detected'));
     props.media(ref);
   }
 
