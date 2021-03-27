@@ -42,7 +42,8 @@ export default class App extends Component<{}, IState> {
     return (
       <div className='appRoot'>
         <div className='blur'>
-          {(this.state.startPlaying == false) && <div className='play' onClick={() => this.setState({ startPlaying: true })} />}
+          {(this.state.startPlaying == false) &&
+            <button data-testid="play-button" className='play' onClick={() => this.setState({ startPlaying: true })} />}
 
           <SnackbarProvider
             autoHideDuration={20000}

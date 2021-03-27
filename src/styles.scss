@@ -15,9 +15,12 @@
 }
 
 .play {
+  background-color: transparent;
   background-image: url("./assets/play.png");
   background-size: contain;
+  border: none;
   height: 200px;
+  outline: none;
   width: 200px;
   cursor: pointer;
 }
