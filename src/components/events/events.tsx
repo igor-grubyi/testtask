@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import Ticker from 'react-ticker';
 import { Notifications } from '../notifications/notifications';
-
 import { fetchJson } from '../../utils/index';
 import { IEvent, EventType } from '../models/event';
+import './styles.scss';
 
 const url = 'https://raw.githubusercontent.com/igor-grubyi/testtask/master/resources/events.json';
 
@@ -16,6 +16,7 @@ export const Events: React.FunctionComponent<IProps> = (props) => {
   const [ticker, setTickets] = useState([]);
   const [events, setEvents] = useState<IEvent[]>([]);
   const [event, setEvent] = useState<IEvent>(null);
+  const [endGameTime, setEndGameTime] = useState(Number.MAX_SAFE_INTEGER)
 
   let currentTicker = -1;
 
@@ -26,39 +27,44 @@ export const Events: React.FunctionComponent<IProps> = (props) => {
       if (eventsJSON != null) {
         setTickets(eventsJSON.ticker);
         setEvents(eventsJSON.events);
+        const endGame: IEvent = eventsJSON.events.find((ev: IEvent) => ev.type == EventType.endGame);
+
+        if (endGame != null)
+          setEndGameTime(endGame.time);
       }
     })();
   }, []);
 
   useEffect(() => {
+    if (props.currentTime >= endGameTime)
+      props.onEndGame();
+
     const currentEvent = events.find(ev => ev.time == props.currentTime);
-    
+
     if (currentEvent != undefined)
-      (currentEvent.type == EventType.endGame) ? props.onEndGame() : setEvent(currentEvent);
+      setEvent(currentEvent);
 
   }, [props.currentTime])
 
   const getTicker = () => {
-    if (ticker.length > 0) {
-      currentTicker ++;
+    currentTicker++;
 
-      if (currentTicker >= ticker.length)
-        currentTicker = 0;
+    if (currentTicker >= ticker.length)
+      currentTicker = 0;
 
-      return ticker[currentTicker].body;
-    }
+    return ticker[currentTicker].body;
   }
-
-  console.log('Render Event');
 
   return (
     <div className='events'>
-      {(ticker.length > 0) &&
-        <Ticker mode='smooth'>
-          {() => (<h2>{getTicker()}</h2>)}
-        </Ticker>}
 
-      {props.currentTime}
+      <div className='tickerWrapper'>
+        {(ticker.length > 0) &&
+          <Ticker mode='smooth' speed={10}>
+            {() => (<h2>{getTicker()}</h2>)}
+          </Ticker>}
+      </div>
+
       {event && <Notifications notice={event} />}
     </div>
   )

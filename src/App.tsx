@@ -2,42 +2,64 @@ import React, { Component } from 'react';
 import { SnackbarProvider } from 'notistack';
 import { Events } from './components/events/events';
 import { VideoPlayer } from './components/videoPlayer/videoPlayer';
-import './style.scss';
+import './styles.scss';
 
 interface IState {
+  startPlaying: boolean;
+  videoIsReady: boolean;
   currentTime: number;
 }
 export default class App extends Component<{}, IState> {
-  public state = { currentTime: 0 };
+  public state = { currentTime: 0, videoIsReady: false, startPlaying: false };
+  private media: any;
 
   private handleCurrentTimeChage = (time: number) => {
     if (time == null) return;
 
     const seconds = Math.round(time);
 
+    if ((seconds > 0) && (this.state.videoIsReady == false))
+      this.setState({ videoIsReady: true });
+
     if (seconds != this.state.currentTime)
       this.setState({ currentTime: seconds });
+  }
+
+  private handleEndGame = () => {
+    this.media.currentTime = 0;
+    this.media.pause();
+    this.media.load();
+    this.setState({ videoIsReady: false, startPlaying: false });
+  }
+
+  private setMedia = (ref: any) => {
+    this.media = ref;
   }
 
 
   public render() {
     console.log('Render App');
-
     return (
-      <SnackbarProvider
-        autoHideDuration={7000}
-        maxSnack={10}
-        hideIconVariant
-        dense
-        anchorOrigin={{ vertical: 'top', horizontal: 'left' }}>
+      <div className='appRoot'>
+        <div className='blur'>
+          {(this.state.startPlaying == false) && <div className='play' onClick={() => this.setState({ startPlaying: true })} />}
 
-        <div className='appWrapper'>
-          <VideoPlayer onTimeUpdate={this.handleCurrentTimeChage} />
+          <SnackbarProvider
+            autoHideDuration={20000}
+            maxSnack={10}
+            hideIconVariant
+            dense
+            anchorOrigin={{ vertical: 'top', horizontal: 'left' }}>
 
-          <Events currentTime={this.state.currentTime} onEndGame={() => { console.log('end game') }} />
+            <div className='mediaWrapper'>
+              {this.state.startPlaying && <VideoPlayer onTimeUpdate={this.handleCurrentTimeChage} media={this.setMedia} />}
+
+              {this.state.videoIsReady && <Events currentTime={this.state.currentTime} onEndGame={this.handleEndGame} />}
+            </div>
+
+          </SnackbarProvider>
         </div>
-
-      </SnackbarProvider>)
+      </div>)
   }
 }
 

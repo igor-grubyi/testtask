@@ -1,0 +1,31 @@
+.appRoot {
+  background-image: url("./assets/logo.jpg");
+  background-repeat: repeat;
+  height: 100%;
+}
+
+.blur {
+  height: 100%;
+  width: 100%;
+  backdrop-filter: blur(20px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  // backdrop-filter: brightness(60%);
+}
+
+.play {
+  background-image: url("./assets/play.png");
+  background-size: contain;
+  height: 200px;
+  width: 200px;
+  cursor: pointer;
+}
+
+.mediaWrapper {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+
+  width: fit-content;
+}

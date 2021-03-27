@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useSnackbar, VariantType } from 'notistack';
+import { useSnackbar } from 'notistack';
 import { EventType, IEvent } from '../models/event';
 import { getTime } from '../../utils';
 
@@ -8,7 +8,7 @@ interface IProps {
 }
 
 export const Notifications: React.FunctionComponent<IProps> = React.memo(({ notice }) => {
-    const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+    const { enqueueSnackbar } = useSnackbar();
 
     useEffect(() => {
         let message;
@@ -31,9 +31,6 @@ export const Notifications: React.FunctionComponent<IProps> = React.memo(({ noti
             message = `Score -  ${notice.newScore.home} : ${notice.newScore.away}`;
             enqueueSnackbar(message, { variant: 'info'});
         }
-
-        
-
     });
 
     console.log('Render Notifications');
