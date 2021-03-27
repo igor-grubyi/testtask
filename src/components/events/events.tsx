@@ -33,8 +33,8 @@ export const Events: React.FunctionComponent<IProps> = (props) => {
         if (endGame != null)
           setEndGameTime(endGame.time);
 
-        if (eventsJSON.videType)
-          setVideoType(eventsJSON.videType);
+        if (eventsJSON.videoType)
+          setVideoType(eventsJSON.videoType);
       }
     })();
   }, []);
