@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import Ticker from 'react-ticker';
-// import { Notifi, EnqueNotifi } from 'react-notifi';
-import "react-notifi/dist/index.css";
-
+import { EventType, IBaseEvent } from '../../models/base';
 import { fetchJson } from '../../utils/index';
+import { getNoticeByType, TYPE } from '../notifications';
+import './styles.scss';
 
-const data  = require('../../../resources/events.json');
-
-const url = 'https://gist.githubusercontent.com/jbreemhaar/449a78e2395cdc85837110447b77317d/raw/ae61e6c99a9db2a05c1d7f68a07e38d9404a7f0a/soccerGame.json';
+const url = 'https://raw.githubusercontent.com/igor-grubyi/testtask/master/resources/events.json';
 
 interface IProps {
   currentTime: number;
@@ -16,37 +14,70 @@ interface IProps {
 
 export const Events: React.FunctionComponent<IProps> = (props) => {
   const [ticker, setTickets] = useState([]);
-  const [events, setEvents] = useState([]);
+  const [events, setEvents] = useState<IBaseEvent[]>([]);
+  const [event, setEvent] = useState<IBaseEvent>(null);
+  const [videoType, setVideoType] = useState(TYPE.football);
+  const [endGameTime, setEndGameTime] = useState(Number.MAX_SAFE_INTEGER)
+
   let currentTicker = -1;
 
   useEffect(() => {
     (async function fetch() {
       const eventsJSON = await fetchJson(url);
 
-      setTickets(data.ticker);
-      setEvents(data.events);
+      if (eventsJSON != null) {
+        setTickets(eventsJSON.ticker);
+        setEvents(eventsJSON.events);
+        const endGame = eventsJSON.events.find((ev: IBaseEvent) => ev.type == EventType.endGame);
+
+        if (endGame != null)
+          setEndGameTime(endGame.time);
+
+        if (eventsJSON.videoType)
+          setVideoType(eventsJSON.videoType);
+      }
     })();
   }, []);
 
+  useEffect(() => {
+    if (props.currentTime >= endGameTime)
+      props.onEndGame();
+
+    const currentEvent = events.find(ev => ev.time == props.currentTime);
+
+    if (currentEvent != undefined)
+      setEvent(currentEvent);
+
+  }, [props.currentTime])
+
   const getTicker = () => {
-    if (ticker.length > 0) {
-      currentTicker ++;
+    currentTicker++;
 
-      if (currentTicker > ticker.length)
-        currentTicker = 0;
+    if (currentTicker >= ticker.length)
+      currentTicker = 0;
 
-      return ticker[currentTicker].body;
-    }
+    return ticker[currentTicker].body;
   }
+
+  const renderNotice = () => {
+    const NoticeComponent = getNoticeByType(videoType);
+
+    return <NoticeComponent notice={event} />
+  }
+
+  
 
   return (
     <div className='events'>
-      {(ticker.length > 0) &&
-        <Ticker mode={'smooth'}>
-          {() => (<h2>{getTicker()}</h2>)}
-        </Ticker>}
 
-      {props.currentTime}
+      <div className='tickerWrapper'>
+        {(ticker.length > 0) &&
+          <Ticker mode='smooth' speed={10}>
+            {() => (<h2>{getTicker()}</h2>)}
+          </Ticker>}
+      </div>
+
+      {event && renderNotice()}
     </div>
   )
 }
