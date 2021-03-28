@@ -6,8 +6,8 @@
   "scripts": {
     "test": "jest",
     "test:watch": "jest --watch",
-    "build": "webpack --config webpack.config.js --hot --open",
-    "start": "webpack serve --mode development"
+    "build": "webpack --config webpack.config.js",
+    "start": "webpack serve --mode development  --hot --open"
   },
   "repository": {
     "type": "git",

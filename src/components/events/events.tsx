@@ -16,7 +16,7 @@ export const Events: React.FunctionComponent<IProps> = (props) => {
   const [ticker, setTickets] = useState([]);
   const [events, setEvents] = useState<IBaseEvent[]>([]);
   const [event, setEvent] = useState<IBaseEvent>(null);
-  const [videoType, setVideoType] = useState(TYPE.football);
+  const [videoType, setVideoType] = useState(TYPE.default);
   const [endGameTime, setEndGameTime] = useState(Number.MAX_SAFE_INTEGER)
 
   let currentTicker = -1;
@@ -28,6 +28,7 @@ export const Events: React.FunctionComponent<IProps> = (props) => {
       if (eventsJSON != null) {
         setTickets(eventsJSON.ticker);
         setEvents(eventsJSON.events);
+        
         const endGame = eventsJSON.events.find((ev: IBaseEvent) => ev.type == EventType.endGame);
 
         if (endGame != null)
@@ -65,12 +66,9 @@ export const Events: React.FunctionComponent<IProps> = (props) => {
     return <NoticeComponent notice={event} />
   }
 
-  
-
   return (
-    <div className='events'>
-
-      <div className='tickerWrapper'>
+    <>
+      <div data-testid="ticker" className='tickerWrapper'>
         {(ticker.length > 0) &&
           <Ticker mode='smooth' speed={10}>
             {() => (<h2>{getTicker()}</h2>)}
@@ -78,6 +76,6 @@ export const Events: React.FunctionComponent<IProps> = (props) => {
       </div>
 
       {event && renderNotice()}
-    </div>
+    </>
   )
 }
