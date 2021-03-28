@@ -60,3 +60,7 @@ open your browser and visit: `http://localhost:8080/`
 to test
 
 `npm run test`
+
+to build
+
+`npm run build`
