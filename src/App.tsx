@@ -64,7 +64,7 @@ export default class App extends Component<{}, IState> {
 
             </SnackbarProvider>
             
-            : <button data-testid="replay-button" className='play' onClick={() => this.setState({ startPlaying: true })} />}
+            : <button data-testid="replay-button" className='replay' onClick={() => this.setState({ startPlaying: true })} />}
 
         </div>
       </div>)
