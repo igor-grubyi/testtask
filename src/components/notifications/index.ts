@@ -2,6 +2,7 @@ import { FootballNotice } from './footballNotice';
 import { BaseNotice } from './baseNotice';
 
 export const TYPE = {
+  default: 'default',
   football: 'football',
   tennis: 'tennis'
 }
