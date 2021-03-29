@@ -45,10 +45,7 @@ export const Events: React.FunctionComponent<IProps> = (props) => {
       props.onEndGame();
 
     const currentEvent = events.find(ev => ev.time == props.currentTime);
-
-    if (currentEvent != undefined)
-      setEvent(currentEvent);
-
+    setEvent(currentEvent);
   }, [props.currentTime])
 
   const getTicker = () => {
