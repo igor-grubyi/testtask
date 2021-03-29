@@ -14,7 +14,7 @@ export const BaseNotice: React.FunctionComponent<IProps> = React.memo(({ notice 
     const action = () => <span>{getTime(notice.time)}</span>;
 
     enqueueSnackbar(notice.type, { variant: 'info', action });
-  })
+  });
 
   return null;
-})
+});
